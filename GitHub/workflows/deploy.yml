@@ -1,0 +1,31 @@
+name: Discord Music Bot Deployment
+
+on:
+  push:
+    branches:
+      - main  # This will trigger the action on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # We're using an Ubuntu server for this workflow
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run the bot
+      - name: Start the bot
+        run: node index.js
+        env:
+          TOKEN: ${{ secrets.BOT_TOKEN }}  # You will set the bot token in GitHub secrets
